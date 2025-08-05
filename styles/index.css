@@ -92,6 +92,46 @@ button:hover {
 
 /* DARK THEME */
 
+body.dark {
+  background-color: #353230;
+}
+
+body.dark .calculator {
+  background-color: #272727;
+  box-shadow: 8px 8px 15px #111, -8px -8px 15px #333;
+}
+
+body.dark .display {
+  background-color: #272727;
+}
+
+body.dark .display-input {
+  background: #3c3c3c;
+  color: #ffa500;
+  box-shadow: inset 8px 8px 15px #1f1f1f, -8px -8px 15px #181818;
+}
+
+body.dark button {
+  background-color: #3a3a3a;
+  color: #fff;
+  box-shadow: 2px 2px 4px #111, -2px -2px 4px #444;
+}
+
+body.dark button:active {
+  box-shadow: inset 6px 6px 10px #111, inset -6px -6px 10px #444;
+}
+
+body.dark button:hover {
+  background-color: #444;
+}
+
+body.dark .buttons-erase,
+body.dark .buttons-equal {
+  background-color: darkorange;
+  border-color: orange;
+  color: white;
+}
+
 @media (min-width: 601px) and (max-width: 1023px) {
   .calculator {
     height: 710px;
