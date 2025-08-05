@@ -2,8 +2,12 @@
   box-sizing: border-box;
 }
 
+body {
+  transition: background 0.3s;
+}
+
 .calculator {
-  height: 680px;
+  height: 690px;
   width: 350px;
   overflow: hidden;
 
@@ -56,6 +60,13 @@
   padding: 4px;
 }
 
+.buttons-backspace img {
+  height: 32px;
+  width: 32px;
+
+  margin-top: 5px;
+}
+
 .buttons-erase {
   background-color: orangered;
   border-color: orange;
@@ -64,9 +75,35 @@
 
 .buttons-equal {
   grid-column: span 4;
-  background-color: orangered;
+  background-color: #ff4500;
   border-color: orange;
   color: rgb(250, 194, 89);
+}
+
+.toggle-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  transition: flex-direction 0.3s ease, transform 0.3s ease;
+}
+
+.icon {
+  font-size: 1.2em;
+  transition: transform 0.3s ease;
+
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+.label {
+  font-size: 1em;
+  font-weight: bold;
+  color: #000;
+  transition: color 0.3s ease;
+
+  margin-right: 6px;
+  margin-bottom: 1px;
 }
 
 button {
@@ -132,6 +169,25 @@ body.dark .buttons-equal {
   color: white;
 }
 
+body.dark .theme-toggle {
+  background: #2c2c2c;
+  box-shadow: 2px 2px 4px #111, -2px -2px 4px #444;
+}
+
+body.dark .icon {
+  margin-bottom: 6px;
+}
+
+body.dark .label {
+  color: #fff;
+
+  margin-left: 7px;
+}
+
+body.dark .toggle-inner {
+  flex-direction: row-reverse;
+}
+
 @media (min-width: 601px) and (max-width: 1023px) {
   .calculator {
     height: 710px;
@@ -147,11 +203,27 @@ body.dark .buttons-equal {
     height: 120px;
     width: 420px;
   }
+
+  .icon {
+    margin-left: 5px;
+  }
+
+  .label {
+    margin-right: 10px;
+  }
+
+  body.dark .icon {
+    margin-bottom: 5px;
+  }
+
+  body.dark .label {
+    margin-left: 10px;
+  }
 }
 
 @media (min-width: 1024px) and (max-width: 1100px) {
   .calculator {
-    height: 790px;
+    height: 810px;
     width: 600px;
   }
 
@@ -163,6 +235,22 @@ body.dark .buttons-equal {
   .display-input {
     height: 150px;
     width: 580px;
+  }
+
+  .icon {
+    margin-left: 10px;
+  }
+
+  .label {
+    margin-right: 18px;
+  }
+
+  body.dark .icon {
+    margin-right: 15px;
+  }
+
+  body.dark .label {
+    margin-left: 15px;
   }
 
   button {
@@ -172,7 +260,7 @@ body.dark .buttons-equal {
 
 @media (min-width: 1101px) {
   .calculator {
-    height: 790px;
+    height: 800px;
     width: 600px;
   }
 
@@ -184,6 +272,22 @@ body.dark .buttons-equal {
   .display-input {
     height: 150px;
     width: 580px;
+  }
+
+  .icon {
+    margin-left: 15px;
+  }
+
+  .label {
+    margin-right: 15px;
+  }
+
+  body.dark .icon {
+    margin-right: 15px;
+  }
+
+  body.dark .label {
+    margin-left: 15px;
   }
 
   button {
