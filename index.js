@@ -33,16 +33,48 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function operate(operator, a, b) {
-    switch (operator) {
-      case '+':
-        return add(a, b);
-      case '-':
-        return subtract(a, b);
-      case '*':
-        return multiply(a, b);
-      case '/':
-        return divide(a, b);
-      default:
-        return "Invalid operator";
-    }
+  switch (operator) {
+    case "+":
+      return add(a, b);
+    case "-":
+      return subtract(a, b);
+    case "*":
+      return multiply(a, b);
+    case "/":
+      return divide(a, b);
+    default:
+      return "Invalid operator";
   }
+}
+// Each function first checks if the arguments are numbers and throws an error if not.
+// If the arguments are valid, they perform the respective arithmetic operation.
+// Add
+function add(number1, number2) {
+  if (typeof number1 !== "number" || typeof number2 !== "number")
+    throw new TypeError("Both arguments must be numbers.");
+  return number1 + number2;
+}
+
+// Subtract
+function subtract(number1, number2) {
+  if (typeof number1 !== "number" || typeof number2 !== "number")
+    throw new TypeError("Both arguments must be numbers.");
+  return number1 - number2;
+}
+
+// Multiply
+function multiply(number1, number2) {
+  if (typeof number1 !== "number" || typeof number2 !== "number")
+    throw new TypeError("Both arguments must be numbers.");
+  return number1 * number2;
+}
+
+// Divide
+function divide(number1, number2) {
+  if (typeof number1 !== "number" || typeof number2 !== "number")
+    throw new TypeError("Both arguments must be numbers.");
+  // Prevents dividing by zero
+  if (number2 === 0) throw new Error("Division by zero is not allowed.");
+  // Returns the quotient/result
+  return number1 / number2;
+}
