@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const toggleLabel = toggleInner?.querySelector(".label");
   const deleteArrow = document.querySelector(".delete-arrow");
   const displayInput = document.querySelector(".display-input");
+  const equalsBtn = document.querySelector(".buttons-equal");
 
   const setTheme = (isDark) => {
     document.body.classList.toggle("dark", isDark);
@@ -60,8 +61,33 @@ document.addEventListener("DOMContentLoaded", () => {
     if (displayInput) {
       displayInput.value = displayValue;
     }
-  };
+  }
 
+  document.addEventListener("keydown", (e) => {
+    e.preventDefault();
+    const key = e.key;
+    console.log(key);
+    console.log();
+    const btnTobeClicked = Array.from(calcButtons).find(
+      (btn) => btn.textContent === key
+    );
+
+    switch (key) {
+      case "Enter":
+        equalsBtn.click();
+        break;
+      case "Backspace":
+        backspaceBtn.click();
+        break;
+      case "c":
+      case "C":
+        eraseBtn.click();
+        break;
+    }
+
+    if (!btnTobeClicked) return;
+    btnTobeClicked.click();
+  });
 });
 
 function operate(operator, a, b) {
