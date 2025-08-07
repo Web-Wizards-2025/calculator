@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const toggleIcon = toggleInner?.querySelector(".icon");
   const toggleLabel = toggleInner?.querySelector(".label");
   const deleteArrow = document.querySelector(".delete-arrow");
+  const displayInput = document.querySelector(".display-input");
 
   const setTheme = (isDark) => {
     document.body.classList.toggle("dark", isDark);
@@ -30,6 +31,37 @@ document.addEventListener("DOMContentLoaded", () => {
     const isDark = !document.body.classList.contains("dark");
     setTheme(isDark);
   });
+
+  let displayValue = "";
+  const calcButtons = document.querySelectorAll(
+    ".buttons button:not(.toggle-light):not(.buttons-backspace):not(.buttons-erase):not(.buttons-equal)"
+  );
+
+  calcButtons.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      displayValue += e.target.textContent;
+      updateDisplay();
+    });
+  });
+
+  const eraseBtn = document.querySelector(".buttons-erase");
+  eraseBtn?.addEventListener("click", () => {
+    displayValue = "";
+    updateDisplay();
+  });
+
+  const backspaceBtn = document.querySelector(".buttons-backspace");
+  backspaceBtn?.addEventListener("click", () => {
+    displayValue = displayValue.slice(0, -1);
+    updateDisplay();
+  });
+
+  function updateDisplay() {
+    if (displayInput) {
+      displayInput.value = displayValue;
+    }
+  }
+
 });
 
 function operate(operator, a, b) {
