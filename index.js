@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  const eraseBtn = document.querySelector(".buttons-erase");
+    const eraseBtn = document.querySelector(".buttons-erase");
   eraseBtn?.addEventListener("click", () => {
     displayValue = "";
     updateDisplay();
