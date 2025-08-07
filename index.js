@@ -138,14 +138,13 @@ let firstValue = null;
   }
 
   buttons.forEach(button => {
-    // Solo manejamos números, punto y operadores con este evento
     button.addEventListener("click", (e) => {
       const value = e.target.textContent.trim();
       if (button.classList.contains("toggle-light") || 
           button.classList.contains("buttons-equal") ||
           button.classList.contains("buttons-erase") ||
           button.classList.contains("buttons-backspace")) {
-        return; // esos se manejan abajo
+        return; 
       }
       if (/\d/.test(value) || value === ".") {
         inputNumber(value);
