@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Theme toggle functionality
   const toggleBtn = document.querySelector(".toggle-light");
   const toggleInner = toggleBtn?.querySelector(".toggle-inner");
   const toggleIcon = toggleInner?.querySelector(".icon");
@@ -33,194 +34,207 @@ document.addEventListener("DOMContentLoaded", () => {
     setTheme(isDark);
   });
 
-  let displayValue = "";
-  const calcButtons = document.querySelectorAll(
-    ".buttons button:not(.toggle-light):not(.buttons-backspace):not(.buttons-erase):not(.buttons-equal)"
-  );
+  // Calculator state
+  let firstValue = null;
+  let operator = null;
+  let waitingForSecondValue = false;
+  let displayValue = "0";
+  let hasDecimal = false;
+  let errorOccurred = false;
 
-  calcButtons.forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      displayValue += e.target.textContent;
-      updateDisplay();
-    });
-  });
-
-  const eraseBtn = document.querySelector(".buttons-erase");
-  eraseBtn?.addEventListener("click", () => {
-    displayValue = "";
-    updateDisplay();
-  });
-
-  const backspaceBtn = document.querySelector(".buttons-backspace");
-  backspaceBtn?.addEventListener("click", () => {
-    displayValue = displayValue.slice(0, -1);
-    updateDisplay();
-  });
-
+  // Helper functions
   function updateDisplay() {
     if (displayInput) {
       displayInput.value = displayValue;
     }
   }
 
-  document.addEventListener("keydown", (e) => {
-    e.preventDefault();
-    const key = e.key;
-    console.log(key);
-    console.log();
-    const btnTobeClicked = Array.from(calcButtons).find(
-      (btn) => btn.textContent === key
-    );
-
-    switch (key) {
-      case "Enter":
-        equalsBtn.click();
-        break;
-      case "Backspace":
-        backspaceBtn.click();
-        break;
-      case "c":
-      case "C":
-        eraseBtn.click();
-        break;
-    }
-
-    if (!btnTobeClicked) return;
-    btnTobeClicked.click();
-  });
-});
-
-function operate(operator, a, b) {
-  switch (operator) {
-    case "+":
-      return add(a, b);
-    case "-":
-      return subtract(a, b);
-    case "*":
-      return multiply(a, b);
-    case "/":
-      return divide(a, b);
-    default:
-      return "Invalid operator";
-  }
-}
-// Each function first checks if the arguments are numbers and throws an error if not.
-// If the arguments are valid, they perform the respective arithmetic operation.
-// Add
-function add(number1, number2) {
-  if (typeof number1 !== "number" || typeof number2 !== "number")
-    throw new TypeError("Both arguments must be numbers.");
-  return number1 + number2;
-}
-
-// Subtract
-function subtract(number1, number2) {
-  if (typeof number1 !== "number" || typeof number2 !== "number")
-    throw new TypeError("Both arguments must be numbers.");
-  return number1 - number2;
-}
-
-// Multiply
-function multiply(number1, number2) {
-  if (typeof number1 !== "number" || typeof number2 !== "number")
-    throw new TypeError("Both arguments must be numbers.");
-  return number1 * number2;
-}
-
-// Divide
-function divide(number1, number2) {
-  if (typeof number1 !== "number" || typeof number2 !== "number")
-    throw new TypeError("Both arguments must be numbers.");
-  // Prevents dividing by zero
-  if (number2 === 0) return "Division by zero is not allowed";
-  // Returns the quotient/result
-  return number1 / number2;
-}
-
-let firstValue = null;
-let operator = null;
-let waitingForSecondValue = false;
-let displayValue = "0";
-
-const displayInput = document.querySelector(".display-input");
-const buttons = document.querySelectorAll(".buttons button");
-const equalButton = document.querySelector(".buttons-equal");
-const clearButton = document.querySelector(".buttons-erase");
-const backspaceButton = document.querySelector(".buttons-backspace");
-
-function updateDisplay() {
-  displayInput.value = displayValue;
-}
-
-function inputNumber(num) {
-  if (waitingForSecondValue) {
-    displayValue = num;
-    waitingForSecondValue = false;
-  } else {
-    if (num === "." && displayValue.includes(".")) return;
-    displayValue = displayValue === "0" ? num : displayValue + num;
-  }
-  updateDisplay();
-}
-
-buttons.forEach((button) => {
-  button.addEventListener("click", (e) => {
-    const value = e.target.textContent.trim();
-    if (
-      button.classList.contains("toggle-light") ||
-      button.classList.contains("buttons-equal") ||
-      button.classList.contains("buttons-erase") ||
-      button.classList.contains("buttons-backspace")
-    ) {
-      return;
-    }
-    if (/\d/.test(value) || value === ".") {
-      inputNumber(value);
-    } else if (["+", "-", "*", "/"].includes(value)) {
-      handleOperator(value);
-    }
-  });
-});
-
-function handleOperator(op) {
-  if (firstValue === null) {
-    firstValue = parseFloat(displayValue);
-  } else if (!waitingForSecondValue) {
-    const result = operate(operator, firstValue, parseFloat(displayValue));
-    displayValue = String(result);
-    firstValue = result;
-    updateDisplay();
-  }
-  operator = op;
-  waitingForSecondValue = true;
-}
-
-equalButton.addEventListener("click", () => {
-  if (firstValue !== null && operator !== null && !waitingForSecondValue) {
-    const result = operate(operator, firstValue, parseFloat(displayValue));
-    displayValue = String(result);
+  function resetCalculator() {
     firstValue = null;
     operator = null;
     waitingForSecondValue = false;
+    displayValue = "0";
+    hasDecimal = false;
+    errorOccurred = false;
+  }
+
+  function formatResult(value) {
+    if (typeof value === "string") return value;
+
+    // Round to 10 decimal places if needed
+    const rounded = Math.round(value * 1e10) / 1e10;
+    return rounded.toString();
+  }
+
+  // Arithmetic operations
+  function add(a, b) {
+    return a + b;
+  }
+  function subtract(a, b) {
+    return a - b;
+  }
+  function multiply(a, b) {
+    return a * b;
+  }
+
+  function divide(a, b) {
+    if (b === 0) return "Nice try! 😏";
+    return a / b;
+  }
+
+  function operate(op, a, b) {
+    a = Number(a);
+    b = Number(b);
+    switch (op) {
+      case "+":
+        return add(a, b);
+      case "-":
+        return subtract(a, b);
+      case "*":
+        return multiply(a, b);
+      case "/":
+        return divide(a, b);
+      default:
+        return "Error";
+    }
+  }
+
+  // Handle number input
+  function inputNumber(num) {
+    if (errorOccurred) resetCalculator();
+
+    if (waitingForSecondValue) {
+      displayValue = num === "." ? "0." : num;
+      waitingForSecondValue = false;
+      hasDecimal = num === ".";
+    } else {
+      if (displayValue === "0" && num !== ".") {
+        displayValue = num;
+      } else {
+        displayValue += num;
+      }
+
+      if (num === ".") {
+        hasDecimal = true;
+      }
+    }
+
     updateDisplay();
   }
-});
 
-clearButton.addEventListener("click", () => {
-  firstValue = null;
-  operator = null;
-  waitingForSecondValue = false;
-  displayValue = "0";
-  updateDisplay();
-});
+  // Handle operators
+  function handleOperator(op) {
+    if (errorOccurred) return;
 
-backspaceButton.addEventListener("click", () => {
-  if (displayValue.length > 1) {
-    displayValue = displayValue.slice(0, -1);
-  } else {
-    displayValue = "0";
+    const inputValue = parseFloat(displayValue);
+
+    if (firstValue === null) {
+      firstValue = inputValue;
+    } else if (operator && !waitingForSecondValue) {
+      const result = operate(operator, firstValue, inputValue);
+
+      if (typeof result === "string") {
+        displayValue = result;
+        errorOccurred = true;
+      } else {
+        firstValue = result;
+        displayValue = formatResult(result);
+      }
+    }
+
+    operator = op;
+    waitingForSecondValue = true;
+    hasDecimal = false;
+    updateDisplay();
   }
+
+  // Button event listeners
+  const calcButtons = document.querySelectorAll(
+    ".buttons button:not(.toggle-light):not(.buttons-backspace):not(.buttons-erase):not(.buttons-equal)"
+  );
+
+  calcButtons.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const value = e.target.textContent;
+
+      if (value >= "0" && value <= "9") {
+        inputNumber(value);
+      } else if (value === ".") {
+        if (!hasDecimal && !errorOccurred) {
+          inputNumber(value);
+        }
+      } else if (["+", "-", "*", "/"].includes(value)) {
+        handleOperator(value);
+      }
+    });
+  });
+
+  // Clear button
+  const eraseBtn = document.querySelector(".buttons-erase");
+  eraseBtn?.addEventListener("click", () => {
+    resetCalculator();
+    updateDisplay();
+  });
+
+  // Backspace button
+  const backspaceBtn = document.querySelector(".buttons-backspace");
+  backspaceBtn?.addEventListener("click", () => {
+    if (errorOccurred) return;
+
+    if (displayValue.length === 1) {
+      displayValue = "0";
+      hasDecimal = false;
+    } else {
+      // Remove last character and check if decimal is still present
+      const lastChar = displayValue.slice(-1);
+      if (lastChar === ".") hasDecimal = false;
+      displayValue = displayValue.slice(0, -1);
+    }
+
+    updateDisplay();
+  });
+
+  // Equals button
+  equalsBtn?.addEventListener("click", () => {
+    if (errorOccurred || operator === null || waitingForSecondValue) return;
+
+    const inputValue = parseFloat(displayValue);
+    const result = operate(operator, firstValue, inputValue);
+
+    if (typeof result === "string") {
+      displayValue = result;
+      errorOccurred = true;
+    } else {
+      displayValue = formatResult(result);
+      firstValue = result;
+    }
+
+    operator = null;
+    waitingForSecondValue = false;
+    updateDisplay();
+  });
+
+  // Keyboard support
+  document.addEventListener("keydown", (e) => {
+    const key = e.key;
+
+    if (key >= "0" && key <= "9") {
+      inputNumber(key);
+    } else if (key === ".") {
+      if (!hasDecimal && !errorOccurred) {
+        inputNumber(key);
+      }
+    } else if (["+", "-", "*", "/"].includes(key)) {
+      handleOperator(key);
+    } else if (key === "Enter" || key === "=") {
+      equalsBtn.click();
+    } else if (key === "Backspace") {
+      backspaceBtn.click();
+    } else if (key === "Escape" || key.toLowerCase() === "c") {
+      eraseBtn.click();
+    }
+  });
+
+  // Initialize display
   updateDisplay();
 });
-
-updateDisplay();
