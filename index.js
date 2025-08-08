@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const deleteArrow = document.querySelector(".delete-arrow");
   const displayInput = document.querySelector(".display-input");
   const equalsBtn = document.querySelector(".buttons-equal");
+  const displayOperator = document.querySelector(".display-operator");
 
   const setTheme = (isDark) => {
     document.body.classList.toggle("dark", isDark);
@@ -41,6 +42,9 @@ document.addEventListener("DOMContentLoaded", () => {
   let displayValue = "0";
   let hasDecimal = false;
   let errorOccurred = false;
+  const displayedCurrentOperator = (newStrValue) =>
+    (displayOperator.textContent = newStrValue);
+  displayedCurrentOperator("");
 
   // Helper functions
   function updateDisplay() {
@@ -56,6 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
     displayValue = "0";
     hasDecimal = false;
     errorOccurred = false;
+    displayedCurrentOperator("");
   }
 
   function formatResult(value) {
@@ -125,6 +130,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // Handle operators
   function handleOperator(op) {
     if (errorOccurred) return;
+
+    displayedCurrentOperator(op);
 
     const inputValue = parseFloat(displayValue);
 
@@ -197,6 +204,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // Equals button
   equalsBtn?.addEventListener("click", () => {
     if (errorOccurred || operator === null || waitingForSecondValue) return;
+
+    displayedCurrentOperator("");
 
     const inputValue = parseFloat(displayValue);
     const result = operate(operator, firstValue, inputValue);

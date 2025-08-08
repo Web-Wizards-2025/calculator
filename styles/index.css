@@ -32,6 +32,7 @@ body {
   align-items: center;
 
   margin: 0;
+  position: relative;
 }
 
 .display-input {
@@ -47,6 +48,15 @@ body {
   padding: 10px;
 
   box-shadow: inset 8px 8px 15px #7c7c7c, -8px -8px 15px #a5a5a5;
+}
+
+.display-operator {
+  position: absolute;
+  right: 0.6rem;
+  top: 1rem;
+  font-size: 2em;
+  color: #000000;
+  text-align: center;
 }
 
 .buttons {
@@ -140,6 +150,10 @@ body.dark .calculator {
 
 body.dark .display {
   background-color: #272727;
+}
+
+body.dark .display-operator {
+  color: #ffa500;
 }
 
 body.dark .display-input {
