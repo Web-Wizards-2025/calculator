@@ -110,3 +110,89 @@ function divide(number1, number2) {
   // Returns the quotient/result
   return number1 / number2;
 }
+
+let firstValue = null;
+  let operator = null;
+  let waitingForSecondValue = false;
+  let displayValue = "0";
+
+  const displayInput = document.querySelector(".display-input");
+  const buttons = document.querySelectorAll(".buttons button");
+  const equalButton = document.querySelector(".buttons-equal");
+  const clearButton = document.querySelector(".buttons-erase");
+  const backspaceButton = document.querySelector(".buttons-backspace");
+
+  function updateDisplay() {
+    displayInput.value = displayValue;
+  }
+
+  function inputNumber(num) {
+    if (waitingForSecondValue) {
+      displayValue = num;
+      waitingForSecondValue = false;
+    } else {
+      if (num === "." && displayValue.includes(".")) return;
+      displayValue = displayValue === "0" ? num : displayValue + num;
+    }
+    updateDisplay();
+  }
+
+  buttons.forEach(button => {
+    button.addEventListener("click", (e) => {
+      const value = e.target.textContent.trim();
+      if (button.classList.contains("toggle-light") || 
+          button.classList.contains("buttons-equal") ||
+          button.classList.contains("buttons-erase") ||
+          button.classList.contains("buttons-backspace")) {
+        return; 
+      }
+      if (/\d/.test(value) || value === ".") {
+        inputNumber(value);
+      } else if (["+", "-", "*", "/"].includes(value)) {
+        handleOperator(value);
+      }
+    });
+  });
+
+  function handleOperator(op) {
+    if (firstValue === null) {
+      firstValue = parseFloat(displayValue);
+    } else if (!waitingForSecondValue) {
+      const result = operate(operator, firstValue, parseFloat(displayValue));
+      displayValue = String(result);
+      firstValue = result;
+      updateDisplay();
+    }
+    operator = op;
+    waitingForSecondValue = true;
+  }
+
+  equalButton.addEventListener("click", () => {
+    if (firstValue !== null && operator !== null && !waitingForSecondValue) {
+      const result = operate(operator, firstValue, parseFloat(displayValue));
+      displayValue = String(result);
+      firstValue = null;
+      operator = null;
+      waitingForSecondValue = false;
+      updateDisplay();
+    }
+  });
+
+  clearButton.addEventListener("click", () => {
+    firstValue = null;
+    operator = null;
+    waitingForSecondValue = false;
+    displayValue = "0";
+    updateDisplay();
+  });
+
+  backspaceButton.addEventListener("click", () => {
+    if (displayValue.length > 1) {
+      displayValue = displayValue.slice(0, -1);
+    } else {
+      displayValue = "0";
+    }
+    updateDisplay();
+  });
+
+  updateDisplay();
