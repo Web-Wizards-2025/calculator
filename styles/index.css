@@ -52,11 +52,15 @@ body {
 
 .display-operator {
   position: absolute;
-  right: 0.6rem;
-  top: 1rem;
+  top: -5px;
+  right: 10px;
   font-size: 2em;
   color: #000000;
   text-align: center;
+}
+
+.multiplying {
+  top: 0px;
 }
 
 .buttons {
@@ -218,6 +222,15 @@ body.dark .toggle-inner {
     width: 420px;
   }
 
+  .display-operator {
+    top: 0px;
+    right: 0px;
+  }
+
+  .multiplying {
+    top: 5px;
+  }
+
   .icon {
     margin-left: 5px;
   }
@@ -249,6 +262,16 @@ body.dark .toggle-inner {
   .display-input {
     height: 150px;
     width: 580px;
+  }
+
+  .display-operator {
+    top: -15px;
+    right: 7px;
+    font-size: 3em;
+  }
+
+  .multiplying {
+    top: -5px;
   }
 
   .icon {
@@ -286,6 +309,16 @@ body.dark .toggle-inner {
   .display-input {
     height: 150px;
     width: 580px;
+  }
+
+  .display-operator {
+    top: -15px;
+    right: 7px;
+    font-size: 3em;
+  }
+
+  .multiplying {
+    top: -5px;
   }
 
   .icon {

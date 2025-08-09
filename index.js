@@ -42,8 +42,11 @@ document.addEventListener("DOMContentLoaded", () => {
   let displayValue = "0";
   let hasDecimal = false;
   let errorOccurred = false;
-  const displayedCurrentOperator = (newStrValue) =>
-    (displayOperator.textContent = newStrValue);
+  function displayedCurrentOperator(newStrValue) {
+    displayOperator.textContent = newStrValue;
+    if (newStrValue === "*") displayOperator.classList.add("multiplying");
+    else displayOperator.classList.remove("multiplying");
+  }
   displayedCurrentOperator("");
 
   // Helper functions
@@ -66,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function formatResult(value) {
     if (typeof value === "string") return value;
 
-    // Round to 10 decimal places if needed
+    // Round to 10 decimal places if needed<
     const rounded = Math.round(value * 1e10) / 1e10;
     return rounded.toString();
   }
