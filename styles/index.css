@@ -32,6 +32,7 @@ body {
   align-items: center;
 
   margin: 0;
+  position: relative;
 }
 
 .display-input {
@@ -47,6 +48,19 @@ body {
   padding: 10px;
 
   box-shadow: inset 8px 8px 15px #7c7c7c, -8px -8px 15px #a5a5a5;
+}
+
+.display-operator {
+  position: absolute;
+  top: -5px;
+  right: 10px;
+  font-size: 2em;
+  color: #000000;
+  text-align: center;
+}
+
+.multiplying {
+  top: 0px;
 }
 
 .buttons {
@@ -142,6 +156,10 @@ body.dark .display {
   background-color: #272727;
 }
 
+body.dark .display-operator {
+  color: #ffa500;
+}
+
 body.dark .display-input {
   background: #3c3c3c;
   color: #ffa500;
@@ -204,6 +222,15 @@ body.dark .toggle-inner {
     width: 420px;
   }
 
+  .display-operator {
+    top: 0px;
+    right: 0px;
+  }
+
+  .multiplying {
+    top: 5px;
+  }
+
   .icon {
     margin-left: 5px;
   }
@@ -235,6 +262,16 @@ body.dark .toggle-inner {
   .display-input {
     height: 150px;
     width: 580px;
+  }
+
+  .display-operator {
+    top: -15px;
+    right: 7px;
+    font-size: 3em;
+  }
+
+  .multiplying {
+    top: -5px;
   }
 
   .icon {
@@ -272,6 +309,16 @@ body.dark .toggle-inner {
   .display-input {
     height: 150px;
     width: 580px;
+  }
+
+  .display-operator {
+    top: -15px;
+    right: 7px;
+    font-size: 3em;
+  }
+
+  .multiplying {
+    top: -5px;
   }
 
   .icon {
